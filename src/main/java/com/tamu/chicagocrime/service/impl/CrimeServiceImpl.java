@@ -3,9 +3,11 @@ package com.tamu.chicagocrime.service.impl;
 import com.tamu.chicagocrime.model.Crime;
 import com.tamu.chicagocrime.repository.CrimeRepository;
 import com.tamu.chicagocrime.service.CrimeService;
+import com.tamu.chicagocrime.service.util.DatesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,5 +27,19 @@ public class CrimeServiceImpl implements CrimeService {
     @Override
     public Crime createCrime(Crime crime) {
         return crimeRepository.save(crime);
+    }
+
+    @Override
+    public List<Crime> getCrimesByDate(String crimeDate) {
+        Date date = DatesUtil.stringToDate(crimeDate, "yyyy-MM-dd");
+        return crimeRepository.findByCrimeDateAfter(date);
+    }
+
+    @Override
+    public List<Crime> getCrimesByDateAndDistrict(String crimeDate, String districtNo) {
+        Date date = DatesUtil.stringToDate(crimeDate, "yyyy-MM-dd");
+        date = DatesUtil.reduceDays(date, -1);
+        Long dNo = Long.parseLong(districtNo);
+        return crimeRepository.findByCrimeDateAfterAndDistrictDistrictNo(date, dNo);
     }
 }

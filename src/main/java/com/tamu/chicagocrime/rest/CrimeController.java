@@ -10,4 +10,6 @@ import java.util.List;
 public interface CrimeController {
     List<Crime> getAllCrimes();
     Crime createCrime(Crime crime);
+    List<Crime> getCrimesByDate(String crimeDate);
+    List<Crime> getCrimesByDateAndDistrict(String crimeDate, String districtNo);
 }

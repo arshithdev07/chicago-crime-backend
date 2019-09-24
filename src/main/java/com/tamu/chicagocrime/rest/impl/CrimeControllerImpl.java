@@ -4,10 +4,7 @@ import com.tamu.chicagocrime.model.Crime;
 import com.tamu.chicagocrime.rest.CrimeController;
 import com.tamu.chicagocrime.service.CrimeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +27,17 @@ public class CrimeControllerImpl implements CrimeController {
     @PostMapping("/crime")
     public Crime createCrime(@RequestBody Crime crime) {
         return crimeService.createCrime(crime);
+    }
+
+    @Override
+    @GetMapping("/filteredCrimesByDate")
+    public List<Crime> getCrimesByDate(@RequestParam("crimeDate") String crimeDate){
+        return crimeService.getCrimesByDate(crimeDate);
+    }
+
+    @Override
+    @GetMapping("/filteredCrimes")
+    public List<Crime> getCrimesByDateAndDistrict(@RequestParam("crimeDate") String crimeDate, @RequestParam("districtNo") String districtNo) {
+        return crimeService.getCrimesByDateAndDistrict(crimeDate, districtNo);
     }
 }
