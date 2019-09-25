@@ -40,4 +40,10 @@ public class CrimeControllerImpl implements CrimeController {
     public List<Crime> getCrimesByDateAndDistrict(@RequestParam("crimeDate") String crimeDate, @RequestParam("districtNo") String districtNo) {
         return crimeService.getCrimesByDateAndDistrict(crimeDate, districtNo);
     }
+
+    @Override
+    @GetMapping("/crimeCount")
+    public List<?> getCrimeCountByDistrict(@RequestParam("crimeDate") String crimeDate) {
+        return crimeService.getCrimeCountByDistrict(crimeDate);
+    }
 }

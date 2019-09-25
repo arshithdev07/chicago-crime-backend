@@ -13,4 +13,5 @@ public interface CrimeService {
     Crime createCrime(Crime crime);
     List<Crime> getCrimesByDate(String crimeDate);
     List<Crime> getCrimesByDateAndDistrict(String crimeDate, String districtNo);
+    List<?> getCrimeCountByDistrict(String crimeDate);
 }

@@ -42,4 +42,11 @@ public class CrimeServiceImpl implements CrimeService {
         Long dNo = Long.parseLong(districtNo);
         return crimeRepository.findByCrimeDateAfterAndDistrictDistrictNo(date, dNo);
     }
+
+    @Override
+    public List<?> getCrimeCountByDistrict(String crimeDate) {
+        Date date = DatesUtil.stringToDate(crimeDate, "yyyy-MM-dd");
+        date = DatesUtil.reduceDays(date, -1);
+        return crimeRepository.findCrimeCount(date);
+    }
 }
