@@ -52,4 +52,10 @@ public class CrimeControllerImpl implements CrimeController {
     public List<?> getCrimeCountByDistrict(@RequestParam("crimeDate") String crimeDate) {
         return crimeService.getCrimeCountByDistrict(crimeDate);
     }
+
+    @Override
+    @GetMapping("/locationCrimeCount")
+    public List<?> getCrimeCountByLocation(@RequestParam("location") String location) {
+        return crimeService.getCrimeCountByLocation(location);
+    }
 }
