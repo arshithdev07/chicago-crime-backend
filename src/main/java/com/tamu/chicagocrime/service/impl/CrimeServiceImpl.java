@@ -25,6 +25,11 @@ public class CrimeServiceImpl implements CrimeService {
     }
 
     @Override
+    public Long getTotalCrimeCount() {
+        return crimeRepository.count();
+    }
+
+    @Override
     public Crime createCrime(Crime crime) {
         return crimeRepository.save(crime);
     }

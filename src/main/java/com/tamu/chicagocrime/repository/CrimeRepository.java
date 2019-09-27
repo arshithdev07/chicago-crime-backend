@@ -18,7 +18,7 @@ public interface CrimeRepository extends JpaRepository<Crime, Long> {
     List<Crime> findByCrimeDateAfter(Date crimeDate);
     List<Crime> findByCrimeDateAfterAndDistrictDistrictNo(Date crimeDate, Long districtNo);
 
-    @Query("SELECT new map(c.district.districtName as label, COUNT(*) as data) FROM Crime c WHERE c.crimeDate >= :cd GROUP BY c.district.districtNo ORDER BY c.district.districtName")
+    @Query("SELECT new map(c.district.districtName as label, COUNT(*) as data) FROM Crime c WHERE c.crimeDate >= :cd GROUP BY c.district.districtNo ORDER BY Count(*)")
     List<?> findCrimeCount(@Param("cd") Date crimeDate);
 
 }

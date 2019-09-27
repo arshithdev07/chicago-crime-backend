@@ -24,6 +24,12 @@ public class CrimeControllerImpl implements CrimeController {
     }
 
     @Override
+    @GetMapping("/totalCrimeCount")
+    public Long getTotalCrimeCount() {
+        return crimeService.getTotalCrimeCount();
+    }
+
+    @Override
     @PostMapping("/crime")
     public Crime createCrime(@RequestBody Crime crime) {
         return crimeService.createCrime(crime);

@@ -67,7 +67,11 @@ public class DataUploadControllerImpl implements DataUploadController {
     @PostMapping("/uploadCrimes")
     public String uploadCrimes(@RequestBody Crime[] crimes) {
         for(Crime crime: crimes) {
-            crimeRepository.save(crime);
+            try {
+                crimeRepository.save(crime);
+            } catch (Exception e) {
+                System.out.println(crime.getCrimeCode().getIucr());
+            }
         }
         return "Successfully uploaded";
     }
