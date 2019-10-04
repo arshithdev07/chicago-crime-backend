@@ -14,7 +14,7 @@ public class Crime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CrimeSeq")
-    @SequenceGenerator(name = "CrimeSeq", sequenceName = "Crime_SEQ" )
+    @SequenceGenerator(name = "CrimeSeq", sequenceName = "Crime_SEQ", allocationSize = 1000000)
     private Long crimeId;
     private String caseNumber;
     private Date crimeDate;

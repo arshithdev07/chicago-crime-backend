@@ -59,4 +59,11 @@ public class CrimeServiceImpl implements CrimeService {
     public List<?> getCrimeCountByLocation(String location) {
         return crimeRepository.findTopCrimesByLocation(location);
     }
+
+    @Override
+    public List<?> getCrimeCountByCommunityArea(String crimeDate) {
+        Date date = DatesUtil.stringToDate(crimeDate, "yyyy-MM-dd");
+        date = DatesUtil.reduceDays(date, -1);
+        return crimeRepository.findCrimeCountByCommunityArea(date);
+    }
 }
