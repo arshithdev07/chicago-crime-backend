@@ -24,44 +24,50 @@ public class CrimeControllerImpl implements CrimeController {
     }
 
     @Override
-    @GetMapping("/totalCrimeCount")
-    public Long getTotalCrimeCount() {
-        return crimeService.getTotalCrimeCount();
+    @GetMapping("/insertCrimes")
+    public String insertCrimes() {
+        return crimeService.insertCrimes();
     }
 
-    @Override
-    @PostMapping("/crime")
-    public Crime createCrime(@RequestBody Crime crime) {
-        return crimeService.createCrime(crime);
-    }
-
-    @Override
-    @GetMapping("/filteredCrimesByDate")
-    public List<Crime> getCrimesByDate(@RequestParam("crimeDate") String crimeDate){
-        return crimeService.getCrimesByDate(crimeDate);
-    }
-
-    @Override
-    @GetMapping("/filteredCrimes")
-    public List<Crime> getCrimesByDateAndDistrict(@RequestParam("crimeDate") String crimeDate, @RequestParam("districtNo") String districtNo) {
-        return crimeService.getCrimesByDateAndDistrict(crimeDate, districtNo);
-    }
-
-    @Override
-    @GetMapping("/crimeCount")
-    public List<?> getCrimeCountByDistrict(@RequestParam("crimeDate") String crimeDate) {
-        return crimeService.getCrimeCountByDistrict(crimeDate);
-    }
-
-    @Override
-    @GetMapping("/locationCrimeCount")
-    public List<?> getCrimeCountByLocation(@RequestParam("location") String location) {
-        return crimeService.getCrimeCountByLocation(location);
-    }
-
-    @Override
-    @GetMapping("/areaCrimeCount")
-    public List<?> getCrimeCountByCommunityArea(@RequestParam("crimeDate") String crimeDate) {
-        return crimeService.getCrimeCountByCommunityArea(crimeDate);
-    }
+//    @Override
+//    @GetMapping("/totalCrimeCount")
+//    public Long getTotalCrimeCount() {
+//        return crimeService.getTotalCrimeCount();
+//    }
+//
+//    @Override
+//    @PostMapping("/crime")
+//    public Crime createCrime(@RequestBody Crime crime) {
+//        return crimeService.createCrime(crime);
+//    }
+//
+//    @Override
+//    @GetMapping("/filteredCrimesByDate")
+//    public List<Crime> getCrimesByDate(@RequestParam("crimeDate") String crimeDate){
+//        return crimeService.getCrimesByDate(crimeDate);
+//    }
+//
+//    @Override
+//    @GetMapping("/filteredCrimes")
+//    public List<Crime> getCrimesByDateAndDistrict(@RequestParam("crimeDate") String crimeDate, @RequestParam("districtNo") String districtNo) {
+//        return crimeService.getCrimesByDateAndDistrict(crimeDate, districtNo);
+//    }
+//
+//    @Override
+//    @GetMapping("/crimeCount")
+//    public List<?> getCrimeCountByDistrict(@RequestParam("crimeDate") String crimeDate) {
+//        return crimeService.getCrimeCountByDistrict(crimeDate);
+//    }
+//
+//    @Override
+//    @GetMapping("/locationCrimeCount")
+//    public List<?> getCrimeCountByLocation(@RequestParam("location") String location) {
+//        return crimeService.getCrimeCountByLocation(location);
+//    }
+//
+//    @Override
+//    @GetMapping("/areaCrimeCount")
+//    public List<?> getCrimeCountByCommunityArea(@RequestParam("crimeDate") String crimeDate) {
+//        return crimeService.getCrimeCountByCommunityArea(crimeDate);
+//    }
 }

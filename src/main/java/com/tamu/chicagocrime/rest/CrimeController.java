@@ -9,11 +9,12 @@ import java.util.List;
  */
 public interface CrimeController {
     List<Crime> getAllCrimes();
-    Long getTotalCrimeCount();
-    Crime createCrime(Crime crime);
-    List<Crime> getCrimesByDate(String crimeDate);
-    List<Crime> getCrimesByDateAndDistrict(String crimeDate, String districtNo);
-    List<?> getCrimeCountByDistrict(String crimeDate);
-    List<?> getCrimeCountByLocation(String location);
-    List<?> getCrimeCountByCommunityArea(String crimeDate);
+    String insertCrimes();
+//    Long getTotalCrimeCount();
+//    Crime createCrime(Crime crime);
+//    List<Crime> getCrimesByDate(String crimeDate);
+//    List<Crime> getCrimesByDateAndDistrict(String crimeDate, String districtNo);
+//    List<?> getCrimeCountByDistrict(String crimeDate);
+//    List<?> getCrimeCountByLocation(String location);
+//    List<?> getCrimeCountByCommunityArea(String crimeDate);
 }

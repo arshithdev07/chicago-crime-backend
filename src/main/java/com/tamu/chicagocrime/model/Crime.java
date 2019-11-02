@@ -1,46 +1,36 @@
 package com.tamu.chicagocrime.model;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by arshi on 9/17/2019.
  */
-@Entity
+@Document(collection = "crimes")
 public class Crime {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CrimeSeq")
-    @SequenceGenerator(name = "CrimeSeq", sequenceName = "Crime_SEQ", allocationSize = 1000000)
+    private String id;
     private Long crimeId;
     private String caseNumber;
     private Date crimeDate;
     private String block;
 
-    @ManyToOne
-    @JoinColumn(name="iucr")
     private CrimeCode crimeCode;
     private String locationDescription;
     private Boolean arrest;
     private Boolean domestic;
     private String beat;
 
-    @ManyToOne
-    @JoinColumn(name="districtNo")
     private District district;
 
-    @ManyToOne
-    @JoinColumn(name="communityNo")
     private Community communityArea;
     private String FBICode;
 
-    @CreationTimestamp
     private Date creationTimestamp;
 
-    @UpdateTimestamp
     private Date updatedTimestamp;
 
     public Long getCrimeId() {

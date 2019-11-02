@@ -1,16 +1,10 @@
 package com.tamu.chicagocrime.model;
 
-import javax.persistence.*;
-
 /**
  * Created by arshi on 9/19/2019.
  */
-@Entity
 public class District {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DistrictSeq")
-    @SequenceGenerator(name = "DistrictSeq", sequenceName = "District_SEQ" )
     private Long districtNo;
     private String districtName;
 

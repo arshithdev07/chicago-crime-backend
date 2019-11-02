@@ -1,15 +1,10 @@
 package com.tamu.chicagocrime.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 /**
  * Created by arshi on 9/19/2019.
  */
-@Entity
 public class CrimeCode {
 
-    @Id
     private String iucr;
     private String primaryDescription;
     private String secondaryDescription;
