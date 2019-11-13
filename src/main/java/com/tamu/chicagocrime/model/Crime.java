@@ -16,6 +16,8 @@ public class Crime {
     private Long crimeId;
     private String caseNumber;
     private Date crimeDate;
+    private String crimeYear;
+
     private String block;
 
     private CrimeCode crimeCode;
@@ -28,6 +30,16 @@ public class Crime {
 
     private Community communityArea;
     private String FBICode;
+    private int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
 
     private Date creationTimestamp;
 
@@ -143,5 +155,21 @@ public class Crime {
 
     public void setCrimeCode(CrimeCode crimeCode) {
         this.crimeCode = crimeCode;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCrimeYear() {
+        return crimeYear;
+    }
+
+    public void setCrimeYear(String crimeYear) {
+        this.crimeYear = crimeYear;
     }
 }

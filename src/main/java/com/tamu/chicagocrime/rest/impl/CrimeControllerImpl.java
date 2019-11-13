@@ -4,7 +4,9 @@ import com.tamu.chicagocrime.model.Crime;
 import com.tamu.chicagocrime.rest.CrimeController;
 import com.tamu.chicagocrime.service.CrimeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -53,11 +55,11 @@ public class CrimeControllerImpl implements CrimeController {
 //        return crimeService.getCrimesByDateAndDistrict(crimeDate, districtNo);
 //    }
 //
-//    @Override
-//    @GetMapping("/crimeCount")
-//    public List<?> getCrimeCountByDistrict(@RequestParam("crimeDate") String crimeDate) {
-//        return crimeService.getCrimeCountByDistrict(crimeDate);
-//    }
+    @Override
+    @GetMapping("/crimeCount")
+    public List<?> getCrimeCountByDistrict(@RequestParam("crimeDate") String crimeDate) {
+        return crimeService.getCrimeCountByDistrict(crimeDate);
+    }
 //
 //    @Override
 //    @GetMapping("/locationCrimeCount")

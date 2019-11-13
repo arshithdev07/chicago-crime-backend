@@ -1,25 +1,30 @@
 package com.tamu.chicagocrime.service.impl;
 
-import com.tamu.chicagocrime.model.Community;
-import com.tamu.chicagocrime.model.Crime;
-import com.tamu.chicagocrime.model.CrimeCode;
-import com.tamu.chicagocrime.model.District;
+import com.tamu.chicagocrime.model.*;
 import com.tamu.chicagocrime.repository.CrimeRepository;
 import com.tamu.chicagocrime.service.CrimeService;
+import com.tamu.chicagocrime.service.util.DatesUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.*;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 /**
  * Created by arshi on 9/17/2019.
@@ -29,6 +34,9 @@ public class CrimeServiceImpl implements CrimeService {
 
     @Autowired
     CrimeRepository crimeRepository;
+
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     @Override
     public List<Crime> getAllCrimes() {
@@ -89,6 +97,12 @@ public class CrimeServiceImpl implements CrimeService {
                         e.printStackTrace();
                     }
                     crimeNew.setCrimeDate(date2);
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(date2);
+                    int year = cal.get(Calendar.YEAR);
+                    int month = cal.get(Calendar.MONTH);
+                    int day = cal.get(Calendar.DAY_OF_MONTH);
+                    crimeNew.setCrimeYear(String.valueOf(year));
 
                     JSONObject dis = (JSONObject) ((JSONObject) crime).get("district");
                     District district = new District();
@@ -101,6 +115,7 @@ public class CrimeServiceImpl implements CrimeService {
                     community.setCommunityNo((Long) com.get("communityNo"));
                     community.setCommunityName((String) com.get("communityName"));
                     crimeNew.setCommunityArea(community);
+                    crimeNew.setCount(1);
 
                     crimeRepository.save(crimeNew);
                 }
@@ -141,12 +156,34 @@ public class CrimeServiceImpl implements CrimeService {
 //        return crimeRepository.findByCrimeDateAfterAndDistrictDistrictNo(date, dNo);
 //    }
 //
-//    @Override
-//    public List<?> getCrimeCountByDistrict(String crimeDate) {
-//        Date date = DatesUtil.stringToDate(crimeDate, "yyyy-MM-dd");
+    @Override
+    public List<?> getCrimeCountByDistrict(String crimeDate) {
+        Date date = DatesUtil.stringToDate(crimeDate, "yyyy-MM-dd");
 //        date = DatesUtil.reduceDays(date, -1);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+
+        MatchOperation yearMatch = match(Criteria.where("crimeYear").is(String.valueOf(year)));
+        GroupOperation groupByDistrict = group("district.districtNo")
+                                            .sum("count").as("count")
+                                            .addToSet("district.districtName").as("districtName");
+        SortOperation sortByCount = sort(Sort.Direction.ASC, "count");
+
+        Aggregation agg = newAggregation(
+            yearMatch,
+            groupByDistrict,
+            project("count", "districtName"),
+            sortByCount
+        );
+
+        AggregationResults<LocationCrimesResult> groupResults
+                = mongoTemplate.aggregate(agg, Crime.class, LocationCrimesResult.class);
+        List<LocationCrimesResult> result = groupResults.getMappedResults();
+
+        return result;
 //        return crimeRepository.findCrimeCount(date);
-//    }
+    }
 //
 //    @Override
 //    public List<?> getCrimeCountByLocation(String location) {
