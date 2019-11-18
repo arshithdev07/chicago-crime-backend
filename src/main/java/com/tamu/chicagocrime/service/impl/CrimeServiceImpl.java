@@ -184,16 +184,57 @@ public class CrimeServiceImpl implements CrimeService {
         return result;
 //        return crimeRepository.findCrimeCount(date);
     }
-//
-//    @Override
-//    public List<?> getCrimeCountByLocation(String location) {
+
+    @Override
+    public List<?> getCrimeCountByLocation(String location) {
+        MatchOperation locationMatch = match(Criteria.where("locationDescription").regex(location));
+        GroupOperation groupByCrime = group("crimeCode.primaryDescription")
+                .sum("count").as("count")
+                .addToSet("crimeCode.primaryDescription").as("crime");
+        SortOperation sortByCount = sort(Sort.Direction.DESC, "count");
+
+        Aggregation agg = newAggregation(
+                locationMatch,
+                groupByCrime,
+                project("count", "crime"),
+                sortByCount
+        );
+
+        AggregationResults<LocationCrimeResult> groupResults
+                = mongoTemplate.aggregate(agg, Crime.class, LocationCrimeResult.class);
+        List<LocationCrimeResult> result = groupResults.getMappedResults();
+
+        return result;
+
 //        return crimeRepository.findTopCrimesByLocation(location);
-//    }
-//
-//    @Override
-//    public List<?> getCrimeCountByCommunityArea(String crimeDate) {
-//        Date date = DatesUtil.stringToDate(crimeDate, "yyyy-MM-dd");
+    }
+
+    @Override
+    public List<?> getCrimeCountByCommunityArea(String crimeDate) {
+        Date date = DatesUtil.stringToDate(crimeDate, "yyyy-MM-dd");
 //        date = DatesUtil.reduceDays(date, -1);
-//        return crimeRepository.findCrimeCountByCommunityArea(date);
-//    }
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+
+        MatchOperation yearMatch = match(Criteria.where("crimeYear").is(String.valueOf(year)).and("crimeCode.primaryDescription").is("ARSON"));
+        GroupOperation groupByDistrict = group("communityArea.communityNo")
+                .sum("count").as("count")
+                .addToSet("communityArea.communityName").as("community");
+        SortOperation sortByCount = sort(Sort.Direction.DESC, "count");
+
+        Aggregation agg = newAggregation(
+                yearMatch,
+                groupByDistrict,
+                project("count", "community"),
+                sortByCount
+        );
+
+        AggregationResults<AreaCrimesResult> groupResults
+                = mongoTemplate.aggregate(agg, Crime.class, AreaCrimesResult.class);
+        List<AreaCrimesResult> result = groupResults.getMappedResults();
+
+        return result;
+    }
 }
